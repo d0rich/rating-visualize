@@ -5,9 +5,76 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css">
+    <link href="src/style.css" rel="stylesheet">
+    <link href="src/adaptive.css" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script src="src/classes/sort.js"></script>
+    <script src="src/classes/result.js"></script>
+    <script src="src/functions/fromXLSX.js"></script>
+    <script src="src/functions/createChart.js"></script>
+
+    <title>Результаты олимпиад</title>
 </head>
 <body>
-
+    <main id="app">
+        <label for="docImport">Загрузите таблицу</label>
+        <input id="docImport" ref="input"
+               @input="getDocument"
+               type="file"
+               accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+        <h1>{{caption}}</h1>
+        <div class="chart-container" v-show="workbook.length">
+            <canvas ref="barChart" width="400" height="400"></canvas>
+        </div>
+        <div class="t-container" v-if="workbook.length">
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr class="text-center">
+                        <th>№</th>
+                        <th>Фамилия <button class="btn-sm btn-dark" @click="sortBook('sName')"><i class="mdi mdi-sort"></i></button></th>
+                        <th>Имя <button class="btn-sm btn-dark" @click="sortBook('fName')"><i class="mdi mdi-sort"></i></button></th>
+                        <th>Отчество <button class="btn-sm btn-dark" @click="sortBook('tName')"><i class="mdi mdi-sort"></i></button></th>
+                        <th>Дата рождения <button class="btn-sm btn-dark" @click="sortBook('birthDate')"><i class="mdi mdi-sort"></i></button></th>
+                        <th>Класс <button class="btn-sm btn-dark" @click="sortBook('class')"><i class="mdi mdi-sort"></i></button></th>
+                        <th>Количество баллов <button class="btn-sm btn-dark" @click="sortBook('score')"><i class="mdi mdi-sort"></i></button></th>
+                        <th>Степень диплома <button class="btn-sm btn-dark" @click="sortBook('degree')"><i class="mdi mdi-sort"></i></button></th>
+                        <th>Наименование образовательной организации <button class="btn-sm btn-dark" @click="sortBook('schoolName')"><i class="mdi mdi-sort"></i></button></th>
+                        <th>Страна <button class="btn-sm btn-dark" @click="sortBook('country')"><i class="mdi mdi-sort"></i></button></th>
+                        <th>Субъект РФ образовательной организации (регион) <button class="btn-sm btn-dark" @click="sortBook('region')"><i class="mdi mdi-sort"></i></button></th>
+                        <th>Вид муниципального образования (город, село, поселок, пгт)* <button class="btn-sm btn-dark" @click="sortBook('cityType')"><i class="mdi mdi-sort"></i></button></th>
+                        <th>Населенный пункт <button class="btn-sm btn-dark" @click="sortBook('city')"><i class="mdi mdi-sort"></i></button></th>
+                        <th>Предмет <button class="btn-sm btn-dark" @click="sortBook('subject')"><i class="mdi mdi-sort"></i></button></th>
+                        <th>вуз, отвечающий за проведение <button class="btn-sm btn-dark" @click="sortBook('university')"><i class="mdi mdi-sort"></i></button></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(result, index) in workbook" :key="index">
+                        <td>{{index + 1}}</td>
+                        <td>{{result.sName}}</td>
+                        <td>{{result.fName}}</td>
+                        <td>{{result.tName}}</td>
+                        <td>{{result.birthDate.toLocaleDateString('ru')}}</td>
+                        <td>{{result.class}}</td>
+                        <td>{{result.score}}</td>
+                        <td>{{result.degree}}</td>
+                        <td>{{result.schoolName}}</td>
+                        <td>{{result.country}}</td>
+                        <td>{{result.region}}</td>
+                        <td>{{result.cityType}}</td>
+                        <td>{{result.city}}</td>
+                        <td>{{result.subject}}</td>
+                        <td>{{result.university}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <script src="main.js"></script>
 </body>
 </html>

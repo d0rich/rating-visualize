@@ -1,0 +1,12 @@
+@media screen and (max-width: 550px){
+    html{
+        font-size: 10pt;
+    }
+    body{
+        padding: 0 .5rem;
+    }
+    .t-container {
+        height: 80vh;
+        width: 100%;
+    }
+}
