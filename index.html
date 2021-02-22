@@ -19,19 +19,38 @@
     <script src="src/functions/fromXLSX.js"></script>
     <script src="src/functions/createChart.js"></script>
 
-    <title>Результаты олимпиад</title>
+    <title>Олимпиады</title>
 </head>
 <body>
     <main id="app">
-        <label for="docImport">Загрузите таблицу</label>
-        <input id="docImport" ref="input"
-               @input="getDocument"
-               type="file"
-               accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-        <h1>{{caption}}</h1>
-        <div class="chart-container" v-show="workbook.length">
-            <canvas ref="barChart" width="400" height="400"></canvas>
+        <h1 class="mt-5">Результаты олимпиады школьников</h1>
+        <div class="d-flex mt-5">
+            <div class="d-flex flex-column justify-content-center mx-3">
+                <label for="docImport" class="form-label">Загрузить таблицу</label>
+                <input id="docImport" ref="input"
+                       class="form-control"
+                       @input="getDocument"
+                       type="file"
+                       accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                <div>
+                    Вы можете загрузить таблицы с результатами <a href="http://abiturient.tsu.ru/ru/content/results-ORMO" target="_blank">здесь</a>.
+                </div>
+            </div>
+            <div class="d-flex flex-column mx-3">
+                <button class="btn btn-dark m-1" v-for="doc in docs" @click="showDoc(doc.path)">{{doc.title}}</button>
+            </div>
         </div>
+
+        <h2>{{caption}}</h2>
+        <div class="row no-gutters justify-content-center my-3">
+            <div class="chart-container" v-show="workbook.length">
+                <canvas ref="barChart" width="400" height="400"></canvas>
+            </div>
+            <div class="chart-container" v-show="workbook.length">
+                <canvas ref="doughnutChart" width="400" height="400"></canvas>
+            </div>
+        </div>
+
         <div class="t-container" v-if="workbook.length">
             <table class="table table-hover table-bordered">
                 <thead>

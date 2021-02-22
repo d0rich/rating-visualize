@@ -39,13 +39,53 @@ function createBarChart(ctx, results = [new Result()]){
                 ...countries.sort(sort.byKey('label'))]
         },
         options: {
+            title: {
+                display: true,
+                text: 'Распределение баллов по странам'
+            },
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: true,
                     }
                 }]
             }
         }
     });
+}
+function createDoughnutChart(ctx, results = [new Result()]){
+    const data = []
+    const labels = []
+    const backgroundColor = []
+    const ds = [{label: '', number: 0}]
+    ds.shift()
+    results.forEach(res => {
+        const note = ds.find(d => d.label === (res.degree?.toString().replace(" ", '') ? res.degree + " степень": 'Нет диплома'))
+        if (note){
+            note.number += 1
+        }
+        else{
+            ds.push({label: res.degree?.toString().replace(" ", '') ? res.degree + " степень": 'Нет диплома', number: 1})
+        }
+    })
+    ds.sort(sort.byKey('label'))
+    ds.forEach(d => {
+        data.push(d.number)
+        labels.push(d.label)
+        backgroundColor.push(`rgba(${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},0.5)`)
+    })
+
+    return new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: [{data, backgroundColor}],
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'Соотношение дипломов'
+            }
+        }
+    })
 }
