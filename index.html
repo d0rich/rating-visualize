@@ -24,7 +24,7 @@
 </head>
 <body>
     <main id="app">
-        <h1 class="mt-5">Результаты олимпиады школьников</h1>
+        <h1 class="mt-5 text-center">Результаты олимпиады школьников</h1>
         <div class="d-flex mt-5">
             <div class="d-flex flex-column justify-content-center mx-3">
                 <label for="docImport" class="form-label">Загрузить таблицу</label>
@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        <h2>{{caption}}</h2>
+        <h2 class="mt-5 text-center">{{caption}}</h2>
         <div class="row no-gutters justify-content-center my-3">
             <div class="chart-container" v-show="workbook.length">
                 <canvas ref="barChart" width="400" height="400"></canvas>
