@@ -1,5 +1,5 @@
 body{
-    padding: 0 2rem;
+    padding: 0 2rem 5rem;
 }
 main{
     display: flex;
@@ -25,6 +25,7 @@ th, td {
     border: 1px solid black;
 }
 .chart-container{
-    max-width: 600px;
-    width: 100%;
+    min-width: 300px;
+    max-width: 500px;
+    width: 95vw;
 }
