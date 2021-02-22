@@ -28,13 +28,14 @@ class Result{
         const bdCell = worksheet[`E${strNumber}`]
         let birthDate = undefined
         if (bdCell){
-            let bd = null
-            if (bdCell.t === 's') bd = bdCell.v.split('.')
-            else {
-                bd = bdCell.w.split('/')
-                bd[2] = + bd[2] + 2000
+            if (bdCell.t === 's') {
+                const bd = bdCell.v.split('.')
+                birthDate = new Date(bd[2], bd[1] - 1, bd[0])
             }
-            birthDate = new Date(bd[2], bd[1] - 1, bd[0])
+            else {
+                birthDate = new Date((bdCell.v - 25569)*24*60*60*1000)
+                //console.log(strNumber, bdCell, birthDate)
+            }
         }
 
         return new Result({
