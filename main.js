@@ -21,19 +21,12 @@ const app = new Vue({
     },
     methods: {
         getDocument(){
-            const reader = new FileReader()
-            reader.onload = () => {
-                const result = fromXLSX(reader.result)
-                this.workbook = result.results
-                this.caption = result.caption
-                this.charts.barchart?.destroy()
-                this.charts.barchart = createBarChart(this.$refs.barChart.getContext('2d'), this.workbook)
-                this.charts.doughnutchart?.destroy()
-                this.charts.doughnutchart = createDoughnutChart(this.$refs.doughnutChart.getContext('2d'), this.workbook)
-            }
-            reader.readAsArrayBuffer(this.$refs.input.files[0])
+            this.renderResults(this.$refs.input.files[0])
         },
         async showDoc(path){
+            this.renderResults(await fetch(path).then(r => r.blob()))
+        },
+        renderResults(blob){
             const reader = new FileReader()
             reader.onload = () => {
                 const result = fromXLSX(reader.result)
@@ -44,7 +37,7 @@ const app = new Vue({
                 this.charts.doughnutchart?.destroy()
                 this.charts.doughnutchart = createDoughnutChart(this.$refs.doughnutChart.getContext('2d'), this.workbook)
             }
-            reader.readAsArrayBuffer(await fetch(path).then(r => r.blob()))
+            reader.readAsArrayBuffer(blob)
         },
         sortBook(key){
             if(this.sorting.key !== key || (this.sorting.key === key && this.sorting.order === 'desc')){
