@@ -24,7 +24,6 @@ class Result{
     }
 
     static fromWorksheet(worksheet, strNumber){
-        window.ws = worksheet
         const bdCell = worksheet[`E${strNumber}`]
         let birthDate = undefined
         if (bdCell){
@@ -34,7 +33,6 @@ class Result{
             }
             else {
                 birthDate = new Date((bdCell.v - 25569)*24*60*60*1000)
-                //console.log(strNumber, bdCell, birthDate)
             }
         }
 
