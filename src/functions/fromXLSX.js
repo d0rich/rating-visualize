@@ -9,7 +9,6 @@ function fromXLSX(data){
         {
             results.push(Result.fromWorksheet(workbook.Sheets[name], i))
         }
-
     })
     return { caption, results }
 }
