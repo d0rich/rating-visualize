@@ -19,12 +19,13 @@
     <script src="src/functions/fromXLSX.js"></script>
     <script src="src/functions/createChart.js"></script>
 
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <title>Олимпиады</title>
+    <link rel="icon" href="Rating.ico" type="image/x-icon">
+    <title>Рейтинг победителей олимпиад | d0rich</title>
 </head>
 <body>
     <main id="app">
         <h1 class="mt-5 text-center">Результаты олимпиады школьников</h1>
+
         <div class="d-flex mt-5">
             <div class="d-flex flex-column justify-content-center mx-3">
                 <label for="docImport" class="form-label">Загрузить таблицу</label>
@@ -41,7 +42,10 @@
                 <button class="btn btn-dark m-1" v-for="doc in docs" @click="showDoc(doc.path)">{{doc.title}}</button>
             </div>
         </div>
-
+        <div style="width: 100%; max-width: 700px">
+            &copy; 2021
+            <a href="https://d0rich.github.io" target="_blank">Nikolay Dorofeev (d0rich)</a>
+        </div>
         <h2 class="mt-5 text-center">{{caption}}</h2>
         <div class="row no-gutters justify-content-center my-3">
             <div class="chart-container" v-show="workbook.length">
